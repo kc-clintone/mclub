@@ -1,10 +1,10 @@
-# mclub
+# M-Klabu
 
 A school / university club management application for creating and managing clubs, members, events, and attendance.
 
 ---
 
-Table of contents
+## Table of contents
 - About
 - Key features
 - Tech stack
@@ -19,11 +19,10 @@ Table of contents
 - License
 
 ---
-
-About
+### About
 A web application to help student organizations manage clubs, memberships, events, and attendance. The repo is split into backend (API + database) and frontend (client UI). The codebase is primarily JavaScript with CSS/HTML and a small bit of TypeScript.
 
-Key features (surface-level)
+### Key features (surface-level)
 - User accounts and roles
 - Club creation and management
 - Membership management (join/leave, status)
@@ -31,7 +30,7 @@ Key features (surface-level)
 - Attendance / RSVP tracking
 - REST API backed by Prisma + PostgreSQL
 
-Tech stack (from repo)
+### Tech stack (from repo)
 - Node.js + Express (backend)
 - Prisma ORM with PostgreSQL
 - bcryptjs for password hashing
@@ -41,8 +40,8 @@ Tech stack (from repo)
 - pg PostgreSQL driver
 - Frontend: JavaScript, CSS, HTML (framework/entry points live in frontend/)
 
-Repository layout (top-level)
-- README.md — this file
+### Repository layout
+- README.md
 - backend/ — Node.js API, Prisma schema and server code
   - package.json — backend deps and metadata
   - prisma/ — Prisma schema & migrations (schema.prisma present)
@@ -52,18 +51,18 @@ Repository layout (top-level)
   - controllers/ — controller implementations
 - frontend/ — frontend application (UI) — check frontend/package.json for scripts
 
-Backend package.json (observed)
+### Backend
 - name: backend
 - type: commonjs
 - main: index.js (note: repository contains server.js — see Development notes)
-- dependencies (selected): @prisma/client, prisma, express, dotenv, cors, jsonwebtoken, bcryptjs, pg, axios
+- dependencies: @prisma/client, prisma, express, dotenv, cors, jsonwebtoken, bcryptjs, pg, axios
 
-Database schema (Prisma) — summary (backend/prisma/schema.prisma)
+### Database schema
 - Generator: prisma-client-js
 - Datasource provider: postgresql
 
-Models:
-- User
+### Models:
+- #### User
   - id Int @id @default(autoincrement())
   - name String
   - email String @unique
@@ -72,7 +71,7 @@ Models:
   - memberships Membership[]
   - attendance Attendance[]
 
-- Club
+- #### Club
   - id Int @id @default(autoincrement())
   - name String
   - description String
@@ -80,14 +79,14 @@ Models:
   - memberships Membership[]
   - events Event[]
 
-- Membership
+- #### Membership
   - id Int @id @default(autoincrement())
   - userId Int
   - clubId Int
   - status String
   - relations: user -> User, club -> Club
 
-- Event
+- #### Event
   - id Int @id @default(autoincrement())
   - clubId Int
   - title String
@@ -95,7 +94,7 @@ Models:
   - eventDate DateTime
   - relations: club -> Club, attendance Attendance[]
 
-- Attendance
+- #### Attendance
   - id Int @id @default(autoincrement())
   - userId Int
   - eventId Int
@@ -104,7 +103,7 @@ Models:
 
 This schema models users, clubs, memberships, events, and attendance in a normalized way suitable for common club-management workflows.
 
-Backend — install & run (detailed)
+### Backend — install & run (detailed)
 1. Prerequisites
    - Node.js (recommended v16+)
    - npm or yarn
@@ -115,7 +114,7 @@ Backend — install & run (detailed)
    - npm install
 
 3. Environment
-   - Create a .env file in backend/ (example provided below). Required at minimum:
+   - Create a .env file in backend:
      - DATABASE_URL (Postgres connection string)
      - JWT_SECRET (for signing tokens)
      - PORT (optional; default port may be in server.js)
@@ -139,14 +138,14 @@ Backend — install & run (detailed)
      - "start": "node server.js"
      - then run: npm start
 
-Notes & tips:
+#### Notes & tips:
 - backend/package.json lists "main": "index.js" while the repo includes server.js; confirm the intended entry point and update package.json or the file name for consistency.
 - If you want hot reload during development, install nodemon and add a dev script:
   - npm install --save-dev nodemon
   - in package.json scripts: "dev": "nodemon server.js"
   - run: npm run dev
 
-Frontend — install & run
+#### Frontend — install & run
 - cd frontend
 - npm install
 - Check frontend/package.json for the exact development and build scripts (common scripts: "start", "dev", "build").
@@ -156,19 +155,19 @@ Frontend — install & run
   - npm run build
 - Configure frontend to point to backend API (commonly via an env var like REACT_APP_API_URL, VITE_API_URL, or similar) — inspect frontend config/README or package.json to confirm var names.
 
-Environment / configuration (recommended .env.example)
+### Environment
 Create backend/.env.example and frontend/.env.example with these placeholders:
 
-backend/.env.example
+###### backend/.env.example
 DATABASE_URL="postgresql://user:password@localhost:5432/mclub"
 JWT_SECRET="replace_with_a_strong_secret"
 PORT=3000
 
-frontend/.env.example
+###### frontend/.env.example
 REACT_APP_API_URL="http://localhost:4000"    # or VITE_API_URL depending on framework
 
-API surface (expected endpoints)
-Based on models and typical patterns, the API will likely expose endpoints such as:
+### API surface (expected endpoints)
+Based on models and typical patterns, the API will expose endpoints such as:
 - POST /auth/register — register a new user
 - POST /auth/login — login and receive JWT
 - GET /users — list users (protected)
@@ -183,19 +182,17 @@ Based on models and typical patterns, the API will likely expose endpoints such 
 - POST /events/:id/attendance — register attendance/RSVP
 - GET /events/:id/attendance — view attendance
 
-(Verify actual routes in backend/src/ and controllers/)
-
-Development notes & recommendations
+### Development notes
 - Add a start script to backend/package.json to standardize running the server.
 - Add frontend package.json scripts and document them in frontend/README.
 - Add backend/.env.example and frontend/.env.example to repo for quick developer setup.
-- Seed script: consider adding a prisma/seed.js and package.json script (e.g., "seed": "node prisma/seed.js") to create sample clubs, users, and events.
+- Seed script: consider adding a prisma/seed.js and package.json script to create sample clubs, users, and events.
 - Add tests and CI (GitHub Actions) for linting, tests, and Prisma schema migration checks.
 
-Contributing
+### Contributing
 - Fork the repo, create a feature branch, add tests where applicable, and open a pull request with a clear description.
 - Keep commit messages concise and changelogs informative.
 - They/them pronouns should be used when referring to other contributors.
 
-License
+### License
 - No license file detected in the repository. Add a LICENSE (MIT or other) to make usage terms explicit.
