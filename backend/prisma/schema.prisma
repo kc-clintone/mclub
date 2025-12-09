@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// USERS TABLE
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  role     String
+
+  memberships Membership[]
+  attendance  Attendance[]
+}
+
+// CLUBS
+
+model Club {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  createdBy   Int
+
+  memberships Membership[]
+  events      Event[]
+}
+
+// MEMBERSHIP TABLE
+
+model Membership {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  clubId Int
+  status String
+
+  user User @relation(fields: [userId], references: [id])
+  club Club @relation(fields: [clubId], references: [id])
+}
+
+// EVENTS
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  clubId      Int
+  title       String
+  description String
+  eventDate   DateTime
+
+  club       Club         @relation(fields: [clubId], references: [id])
+  attendance Attendance[]
+}
+
+// ATTENDANCE
+
+model Attendance {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  eventId Int
+  status  String
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+}
