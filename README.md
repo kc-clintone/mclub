@@ -1,4 +1,4 @@
-# M-Klabu
+# Clubr
 
 A school / university club management application for creating and managing clubs, members, events, and attendance.
 
@@ -20,7 +20,7 @@ A school / university club management application for creating and managing club
 
 ---
 ### About
-A web application to help student organizations manage clubs, memberships, events, and attendance. The repo is split into backend (API + database) and frontend (client UI). The codebase is primarily JavaScript with CSS/HTML and a small bit of TypeScript.
+A web application to help student organizations manage clubs, memberships, events, and attendance. The repo is split into backend (API + database) and frontend (client UI). The codebase is primarily JavaScript(React) with tailwind CSS.
 
 ### Key features (surface-level)
 - User accounts and roles
@@ -28,7 +28,7 @@ A web application to help student organizations manage clubs, memberships, event
 - Membership management (join/leave, status)
 - Event creation and scheduling
 - Attendance / RSVP tracking
-- REST API backed by Prisma + PostgreSQL
+- REST API backed by supabase
 
 ### Tech stack (from repo)
 - Node.js + Express (backend)
